@@ -98,7 +98,7 @@ class UserController {
         // let info = await transporter.sendMail({
         //   from: process.env.EMAIL_FROM,
         //   to: user.email,
-        //   subject: "GeekShop - Password Reset Link",
+        //   subject: "Password Reset - Password Reset Link",
         //   html: `<a href=${link}>Click Here</a> to Reset Your Password`
         // })
         res.send({ "status": "success", "message": "Password Reset Email Sent... Please Check Your Email" })
@@ -134,6 +134,29 @@ class UserController {
       res.send({ "status": "failed", "message": "Invalid Token" })
     }
   }
+
+
+  // Profile
+  static getProfile = async (req, res) => {
+    let { _id } = req.user
+    let user = await UserModel.findOne({
+        _id: _id
+    });
+
+
+    if (user) {
+        res.send({
+            message: "User Found",
+            success: true,
+            data: req.user
+        })
+    } else {
+        res.send({
+            message: "User Not Found",
+            success: false
+        })
+    }
+}
 }
 
 export default UserController
